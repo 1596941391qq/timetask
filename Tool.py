@@ -865,6 +865,8 @@ class TimeTaskModel:
             tempRoomId = ""
             #群聊处理       
             try:
+                #更新群聊列表
+                itchat.get_chatrooms(update=True)
                 #群聊  
                 chatrooms = itchat.get_chatrooms()
                 #获取群聊
@@ -924,9 +926,15 @@ class TimeTaskModel:
         else:
             print(f"[{channel_name}通道] 通过 群Title 获取群ID 不支持的channel，channel为：{channel_name}")
             return ""
-                    
-                
-            
-             
-        
-        
+
+    def is_sent_to_group(self, groupId):
+        # 检查任务是否已发送至指定群聊
+        return groupId in self.sent_groups
+
+    def mark_sent_to_group(self, groupId):
+        # 标记任务已发送至指定群聊
+        self.sent_groups.add(groupId)
+
+
+
+

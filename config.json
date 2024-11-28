@@ -9,8 +9,7 @@
   "is_need_currentTime_whenNormalReply": true,
   "is_need_identifier_whenNormalReply": true,
   "is_need_detailDeccription_whenNormalReply": true,
-  "extension_function":
-  [
+  "extension_function": [
     {
       "key_word": "早报",
       "func_command_prefix":"$tool "
@@ -27,5 +26,6 @@
       "key_word": "GPT",
       "func_command_prefix": "GPT"
     }
-  ]
+  ],
+  "auth_groups": []
 }

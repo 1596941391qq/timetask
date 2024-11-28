@@ -322,6 +322,7 @@ class timetask(Plugin):
         #是否个人为群聊制定的任务
         if model.isPerson_makeGrop():
             newEvent, groupTitle = model.get_Persion_makeGropTitle_eventStr()
+            logger.info(f"groupTitle:{ groupTitle}")
             eventStr = newEvent
             channel_name = RobotConfig.conf().get("channel_type", "wx")
             groupId = model.get_gropID_withGroupTitle(groupTitle , channel_name)
@@ -330,9 +331,12 @@ class timetask(Plugin):
             if len(groupId) <= 0:
                 logging.error(f"通过群标题【{groupTitle}】,未查到对应的群ID, 跳过本次消息")
                 return
-        
-        print("触发了定时任务：{} , 任务详情：{}".format(model.taskId, eventStr))
-        
+
+        # 确保任务只发送一次
+        if model.is_sent_to_group(groupId):
+            logger.info(f"任务【{model.taskId}】已发送至群【{groupTitle}】，跳过本次发送")
+            return
+        model.mark_sent_to_group(groupId)
         #去除多余字符串
         orgin_string = model.originMsg.replace("ChatMessage:", "")
         # 使用正则表达式匹配键值对
